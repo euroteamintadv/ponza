@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ponza Digitale aiuta le attività locali a essere trovate online con siti web, contenuti e promozione digitale su misura.">
     <title>Ponza Digitale - Digitalizzazione per le attività di Ponza</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -726,15 +727,15 @@
                 <div class="footer-col">
                     <h3>Contatti</h3>
                     <div class="contatti-footer">
-                        <a href="mailto:ponza@upgrade.services"><i class="fas fa-envelope"></i> publimatiqa@gmail.com</a>
+                        <a href="mailto:publimatiqa@gmail.com"><i class="fas fa-envelope"></i> publimatiqa@gmail.com</a>
                         <a href="https://wa.me/393711091437"><i class="fab fa-whatsapp"></i> +39 371 1091437</a>
-                        <a href="#"><i class="fas fa-globe"></i> ponza.digital (in costruzione)</a>
+                        <a href="https://publimatiqa.com" target="_blank" rel="noopener"><i class="fas fa-globe"></i> publimatiqa.com</a>
                     </div>
                 </div>
                 
                 <div class="footer-col">
                     <h3>Powered by</h3>
-                    <img src="#" alt="Publimatiqa" style="filter: brightness(0) invert(1); height: 40px; margin-bottom: 15px;">
+                    <img src="https://publimatiqa.com/wp-content/uploads/2024/04/logo-publimatiqa.png" alt="Publimatiqa" style="filter: brightness(0) invert(1); height: 40px; margin-bottom: 15px;">
                     <p>Publimatiqa.com by Alberto Finelli</p>
                 </div>
             </div>
@@ -746,10 +747,33 @@
     </footer>
 
     <script>
-        // Gestione del form di contatto
+        // Gestione del form di contatto con inoltro WhatsApp
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Grazie per la tua richiesta! Ti contatteremo al più presto.');
+
+            const nome = document.getElementById('nome').value.trim();
+            const attivita = document.getElementById('attivita').value.trim();
+            const contatto = document.getElementById('contatto').value.trim();
+            const messaggio = document.getElementById('messaggio').value.trim();
+
+            if (!nome || !attivita || !contatto || !messaggio) {
+                alert('Compila tutti i campi prima di inviare la richiesta.');
+                return;
+            }
+
+            const testo = [
+                'Nuova richiesta dal sito Ponza Digitale',
+                `Nome: ${nome}`,
+                `Attività: ${attivita}`,
+                `Contatto: ${contatto}`,
+                `Messaggio: ${messaggio}`
+            ].join('\n');
+
+            const numeroWhatsapp = '393711091437';
+            const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(testo)}`;
+
+            window.open(url, '_blank', 'noopener');
+            alert('Richiesta preparata su WhatsApp. Completa l\'invio nella chat aperta.');
             this.reset();
         });
     </script>

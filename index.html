@@ -4,7 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ponza Digitale - Digitalizzazione per le attività di Ponza</title>
+    <meta name="description" content="Ponza Digitale aiuta attività locali a farsi trovare online con sito web, Google Maps, contenuti e promozione automatizzata.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Ponza Digitale - Fatti trovare. Fatti scegliere.">
+    <meta property="og:description" content="Digitalizzazione per le attività di Ponza: sito web, presenza online e promozione intelligente.">
+    <meta property="og:image" content="https://images.pexels.com/photos/32207086/pexels-photo-32207086.jpeg">
+    <meta property="og:locale" content="it_IT">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Ponza Digitale",
+      "description": "Servizi di digitalizzazione e promozione per attività locali di Ponza.",
+      "areaServed": "Ponza",
+      "url": "https://ponza.digital",
+      "email": "publimatiqa@gmail.com",
+      "telephone": "+39 371 1091437"
+    }
+    </script>
     <style>
         /* Variabili colore - tema Mediterraneo */
         :root {
@@ -726,15 +745,15 @@
                 <div class="footer-col">
                     <h3>Contatti</h3>
                     <div class="contatti-footer">
-                        <a href="mailto:ponza@upgrade.services"><i class="fas fa-envelope"></i> publimatiqa@gmail.com</a>
+                        <a href="mailto:publimatiqa@gmail.com"><i class="fas fa-envelope"></i> publimatiqa@gmail.com</a>
                         <a href="https://wa.me/393711091437"><i class="fab fa-whatsapp"></i> +39 371 1091437</a>
-                        <a href="#"><i class="fas fa-globe"></i> ponza.digital (in costruzione)</a>
+                        <a href="https://ponza.digital"><i class="fas fa-globe"></i> ponza.digital</a>
                     </div>
                 </div>
                 
                 <div class="footer-col">
                     <h3>Powered by</h3>
-                    <img src="#" alt="Publimatiqa" style="filter: brightness(0) invert(1); height: 40px; margin-bottom: 15px;">
+                    <span style="display:inline-block;font-weight:700;margin-bottom:15px;">Publimatiqa</span>
                     <p>Publimatiqa.com by Alberto Finelli</p>
                 </div>
             </div>
@@ -746,10 +765,20 @@
     </footer>
 
     <script>
-        // Gestione del form di contatto
+        // Gestione del form di contatto: apre WhatsApp con messaggio precompilato
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Grazie per la tua richiesta! Ti contatteremo al più presto.');
+
+            const nome = document.getElementById('nome').value.trim();
+            const attivita = document.getElementById('attivita').value.trim();
+            const contatto = document.getElementById('contatto').value.trim();
+            const messaggio = document.getElementById('messaggio').value.trim();
+
+            const testo = `Ciao, sono ${nome}.%0AAttività: ${attivita}.%0AContatto: ${contatto}.%0AMessaggio: ${messaggio}`;
+            const waUrl = `https://wa.me/393711091437?text=${testo}`;
+
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+            alert('Grazie! Abbiamo aperto WhatsApp con il tuo messaggio precompilato.');
             this.reset();
         });
     </script>

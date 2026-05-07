@@ -96,6 +96,10 @@
             transition: all 0.3s;
             margin: 10px 10px 10px 0;
         }
+
+        .btn-full {
+            width: 100%;
+        }
         
         .btn-primary {
             background-color: var(--azzurro);
@@ -201,6 +205,13 @@
             background-color: var(--bianco);
         }
 
+        .servizi-intro {
+            max-width: 760px;
+            margin: -10px auto 32px;
+            text-align: center;
+            color: #4a4a4a;
+        }
+
         .servizi .container {
             max-width: 1280px;
         }
@@ -269,6 +280,19 @@
             box-shadow: 0 5px 15px var(--ombra);
             position: relative;
             overflow: hidden;
+        }
+
+        .piano-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .piano-icon-base {
+            color: #e6b301;
+        }
+
+        .piano-icon-plus {
+            color: #4fa4d8;
         }
         
         .piano.popolare:before {
@@ -445,6 +469,12 @@
             margin-bottom: 15px;
             display: block;
         }
+
+        .footer-logo-image {
+            filter: brightness(0) invert(1);
+            height: 40px;
+            margin-bottom: 15px;
+        }
         
         .copyright {
             text-align: center;
@@ -562,10 +592,11 @@
     <section class="servizi">
         <div class="container">
             <h2>Cosa offriamo</h2>
+            <p class="servizi-intro">Soluzioni pratiche per essere visibili online con una presenza professionale, coerente e facile da gestire.</p>
             
                 <div class="servizi-container">
                     <div class="servizio">
-                        <img class="servizio-media" src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Sviluppo sito web moderno su laptop">
+                        <img class="servizio-media" src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Sviluppo sito web moderno su laptop" loading="lazy" decoding="async">
                         <div class="servizio-content">
                             <i class="fas fa-globe"></i>
                             <h3>Sito web semplice e veloce</h3>
@@ -574,7 +605,7 @@
                     </div>
                     
                     <div class="servizio">
-                        <img class="servizio-media" src="https://images.pexels.com/photos/2422588/pexels-photo-2422588.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Persona che usa una mappa digitale sul telefono">
+                        <img class="servizio-media" src="https://images.pexels.com/photos/2422588/pexels-photo-2422588.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Persona che usa una mappa digitale sul telefono" loading="lazy" decoding="async">
                         <div class="servizio-content">
                             <i class="fas fa-map-marked-alt"></i>
                             <h3>Inserimento su Google Maps</h3>
@@ -583,7 +614,7 @@
                     </div>
                     
                     <div class="servizio">
-                        <img class="servizio-media" src="https://images.pexels.com/photos/3379934/pexels-photo-3379934.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Creazione di contenuti foto e video per attività locale">
+                        <img class="servizio-media" src="https://images.pexels.com/photos/3379934/pexels-photo-3379934.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Creazione di contenuti foto e video per attività locale" loading="lazy" decoding="async">
                         <div class="servizio-content">
                             <i class="fas fa-camera"></i>
                             <h3>Foto e mini video</h3>
@@ -592,7 +623,7 @@
                     </div>
                     
                     <div class="servizio">
-                        <img class="servizio-media" src="https://images.pexels.com/photos/8064270/pexels-photo-8064270.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Inquadratura di QR code con smartphone">
+                        <img class="servizio-media" src="https://images.pexels.com/photos/8064270/pexels-photo-8064270.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Inquadratura di QR code con smartphone" loading="lazy" decoding="async">
                         <div class="servizio-content">
                             <i class="fas fa-qrcode"></i>
                             <h3>QR code personalizzato</h3>
@@ -601,7 +632,7 @@
                     </div>
                     
                     <div class="servizio">
-                        <img class="servizio-media" src="https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Strategia social media con smartphone e laptop">
+                        <img class="servizio-media" src="https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Strategia social media con smartphone e laptop" loading="lazy" decoding="async">
                         <div class="servizio-content">
                             <i class="fab fa-facebook"></i>
                             <h3>Pagina social ottimizzata</h3>
@@ -610,7 +641,7 @@
                     </div>
                     
                     <div class="servizio">
-                        <img class="servizio-media" src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Automazione marketing e intelligenza artificiale su dashboard">
+                        <img class="servizio-media" src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Automazione marketing e intelligenza artificiale su dashboard" loading="lazy" decoding="async">
                         <div class="servizio-content">
                             <i class="fas fa-robot"></i>
                             <h3>Promozione automatizzata</h3>
@@ -628,7 +659,7 @@
             
             <div class="piani">
                 <div class="piano">
-                    <div style="color: #e6b301; font-size: 24px; margin-bottom: 10px;">
+                    <div class="piano-icon piano-icon-base">
                         <i class="fas fa-star"></i>
                     </div>
                     <h3>Pacchetto BASE</h3>
@@ -647,7 +678,7 @@
                 </div>
                 
                 <div class="piano popolare">
-                    <div style="color: #4fa4d8; font-size: 24px; margin-bottom: 10px;">
+                    <div class="piano-icon piano-icon-plus">
                         <i class="fas fa-gem"></i>
                     </div>
                     <h3>Pacchetto PLUS</h3>
@@ -723,12 +754,12 @@
                 <form id="contact-form">
                     <div class="form-group">
                         <label for="nome">Nome e Cognome</label>
-                        <input type="text" id="nome" class="form-control" required>
+                        <input type="text" id="nome" name="nome" class="form-control" autocomplete="name" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="attivita">Tipo di attività</label>
-                        <select id="attivita" class="form-control" required>
+                        <select id="attivita" name="attivita" class="form-control" required>
                             <option value="">Seleziona...</option>
                             <option value="ristorante">Ristorante/Pizzeria</option>
                             <option value="bar">Bar/Caffetteria</option>
@@ -741,15 +772,15 @@
                     
                     <div class="form-group">
                         <label for="contatto">Email / WhatsApp</label>
-                        <input type="text" id="contatto" class="form-control" required>
+                        <input type="text" id="contatto" name="contatto" class="form-control" autocomplete="email" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="messaggio">Parlaci della tua attività</label>
-                        <textarea id="messaggio" class="form-control" required></textarea>
+                        <textarea id="messaggio" name="messaggio" class="form-control" required></textarea>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Richiedi senza impegno</button>
+                    <button type="submit" class="btn btn-primary btn-full">Richiedi senza impegno</button>
                 </form>
             </div>
         </div>
@@ -775,7 +806,7 @@
                 
                 <div class="footer-col">
                     <h3>Powered by</h3>
-                    <img src="https://publimatiqa.com/wp-content/uploads/2024/04/logo-publimatiqa.png" alt="Publimatiqa" style="filter: brightness(0) invert(1); height: 40px; margin-bottom: 15px;">
+                    <img src="https://publimatiqa.com/wp-content/uploads/2024/04/logo-publimatiqa.png" alt="Publimatiqa" class="footer-logo-image" loading="lazy" decoding="async">
                     <p>Publimatiqa.com by Alberto Finelli</p>
                 </div>
             </div>

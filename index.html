@@ -930,7 +930,7 @@ footer {
         <div class="servizio-body">
           <div class="servizio-icon">🤖</div>
           <div class="servizio-title">Promozione automatizzata</div>
-          <div class="servizio-desc">Gestita da Publimatiqa. Lavora per te ogni giorno, anche mentre sei in cucina o a mare.</div>
+          <div class="servizio-desc">Lavora per te ogni giorno, anche mentre sei in cucina o a mare. Tutto automatico.</div>
         </div>
       </div>
     </div>
@@ -1109,21 +1109,8 @@ footer {
       <div class="contatti-info reveal">
         <h3>Senza impegno,<br>senza fretta.</h3>
         <p>Raccontaci della tua attività. Ti diciamo in 5 minuti cosa fa al caso tuo e quanto costa. Se non fa per te, nessun problema.</p>
-        <div class="contatti-links">
-          <a href="https://wa.me/393711091437" class="contatti-link" target="_blank" rel="noopener">
-            <div class="cl-icon">💬</div>
-            WhatsApp — +39 371 1091437
-          </a>
-          <a href="mailto:publimatiqa@gmail.com" class="contatti-link">
-            <div class="cl-icon">✉️</div>
-            publimatiqa@gmail.com
-          </a>
-          <a href="https://publimatiqa.com" class="contatti-link" target="_blank" rel="noopener">
-            <div class="cl-icon">🌐</div>
-            publimatiqa.com
-          </a>
+        <p style="font-size:14px;color:var(--testo3);margin-top:8px;">Ti risponderemo entro 24 ore.</p>
         </div>
-      </div>
       <div class="form-card reveal reveal-delay-1">
         <form id="contact-form">
           <div class="form-group">
@@ -1161,7 +1148,7 @@ footer {
 <footer>
   <div class="footer-logo">Ponza Digitale</div>
   <div class="footer-tagline">"Anche il passaparola oggi passa dal web."</div>
-  <div class="footer-by">Powered by <a href="https://publimatiqa.com" target="_blank" rel="noopener">Publimatiqa.com</a></div>
+  <div class="footer-by">Powered by <a href="https://neuraccent.com" target="_blank" rel="noopener">Neuraccent.com</a></div>
 </footer>
 
 <script>
@@ -1185,7 +1172,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// Form → WhatsApp
+// Form → mailto
 document.getElementById('contact-form').addEventListener('submit', function(e) {
   e.preventDefault();
   const nome = document.getElementById('nome').value.trim();
@@ -1195,9 +1182,22 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
   if (!nome || !attivita || !contatto || !msg) {
     alert('Compila tutti i campi prima di inviare.'); return;
   }
-  const testo = `Nuova richiesta da Ponza Digitale\n\nNome: ${nome}\nAttività: ${attivita}\nContatto: ${contatto}\nMessaggio: ${msg}`;
-  window.open(`https://wa.me/393711091437?text=${encodeURIComponent(testo)}`, '_blank', 'noopener');
-  this.reset();
+  const subject = encodeURIComponent('Ponza Digitale — Nuova richiesta');
+  const body = encodeURIComponent(
+`New request from Ponza Digitale website
+
+Name: ${nome}
+Activity: ${attivita}
+Contact: ${contatto}
+Message: ${msg}`
+  );
+  window.location.href = `mailto:info@neuraccent.com?subject=${subject}&body=${body}`;
+  setTimeout(() => {
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('contact-form').insertAdjacentHTML('afterend',
+      '<p style="text-align:center;padding:32px;font-size:16px;color:var(--mare);font-weight:500;">✅ Grazie! Ti risponderemo entro 24 ore.</p>'
+    );
+  }, 600);
 });
 </script>
 </body>

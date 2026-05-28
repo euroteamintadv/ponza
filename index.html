@@ -818,9 +818,9 @@ footer {
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-tag">🏝️ Solo per le attività di Ponza</div>
+    <div class="hero-tag">🏝️ Fatto da ponzesi, per le attività di Ponza</div>
     <h1>La tua attività<br>merita di essere<br><em>trovata.</em></h1>
-    <p class="hero-sub">I tuoi clienti cercano online — ristoranti, B&B, negozi, artigiani. Se non ci sei, sceglieranno qualcun altro. Ti portiamo online in 72 ore.</p>
+    <p class="hero-sub">Non siamo un'agenzia turistica. Siamo uno strumento per valorizzare chi lavora sull'isola tutto l'anno — ristoranti, B&B, artigiani, negozi, agricoltori.</p>
     <div class="hero-actions">
       <a href="#prezzi" class="btn-primary">Vedi i prezzi</a>
       <a href="#contatti" class="btn-outline-white">Parliamone</a>
@@ -869,8 +869,8 @@ footer {
         <div class="perche-point reveal reveal-delay-3">
           <div class="pp-icon">🔄</div>
           <div>
-            <div class="pp-title">Il passaparola non basta più — ma rimane importante</div>
-            <div class="pp-text">Chi ti conosce già ti consiglia. Ma per attrarre chi non ti conosce, serve una presenza digitale. Le due cose si moltiplicano a vicenda.</div>
+            <div class="pp-title">Non siamo un'agenzia turistica — siamo il tuo strumento</div>
+            <div class="pp-text">Ponza Digitale non promuove l'isola ai turisti. Porta online chi sull'isola ci lavora, ci vive, ci crede — tutto l'anno, non solo d'estate.</div>
           </div>
         </div>
       </div>
@@ -1098,7 +1098,7 @@ footer {
 <section class="chisiamo">
   <div class="chisiamo-inner">
     <div class="chisiamo-label reveal">Chi c'è dietro</div>
-    <p class="chisiamo-quote reveal">"Sono un figlio di Ponza.<br>Ho creato questo servizio per la mia gente."</p>
+    <p class="chisiamo-quote reveal">"Ponza Digitale non è una vetrina turistica.<br>È uno strumento per chi sull'isola <em>lavora</em>."</p>
     <p class="chisiamo-firma reveal">— Alberto Finelli · Publimatiqa.com</p>
   </div>
 </section>
@@ -1128,11 +1128,17 @@ footer {
             <label for="attivita">Tipo di attività *</label>
             <select id="attivita" class="form-control" required>
               <option value="">Seleziona...</option>
-              <option>Ristorante / Pizzeria</option>
-              <option>Bar / Caffetteria</option>
               <option>Affittacamere / B&B</option>
-              <option>Negozio locale</option>
+              <option>Agenzia di viaggi / Tour operator</option>
               <option>Artigiano</option>
+              <option>Azienda agricola / Prodotti locali</option>
+              <option>Bar / Caffetteria</option>
+              <option>Catering / Servizi enogastronomici</option>
+              <option>Negozio / Boutique</option>
+              <option>Noleggio auto / Moto / Biciclette</option>
+              <option>Noleggio barche / Gommoni / Escursioni</option>
+              <option>Ristorante / Pizzeria / Trattoria</option>
+              <option>Servizi di pulizie</option>
               <option>Altro</option>
             </select>
           </div>
@@ -1149,17 +1155,19 @@ footer {
             <input type="text" id="sito-attuale" class="form-control" placeholder="Es. www.tuoristorante.it oppure No">
           </div>
           <div class="form-group">
-            <label for="social">Social esistenti</label>
-            <input type="text" id="social" class="form-control" placeholder="Instagram, Facebook... (se li hai)">
+            <label for="social">Link pagine social / siti dove sei presente</label>
+            <input type="text" id="social" class="form-control" placeholder="Es. facebook.com/tuaattivita, instagram.com/tuaattivita...">
           </div>
           <div class="form-group">
             <label for="messaggio">Raccontaci qualcosa</label>
             <textarea id="messaggio" class="form-control" placeholder="Cosa fai, cosa vorresti comunicare, orari, specialità..."></textarea>
           </div>
-          <div class="form-group">
-            <label for="allegato">Carica un depliant, logo o foto (PDF, JPG, PNG)</label>
-            <input type="file" id="allegato" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp" style="padding:8px 14px;cursor:pointer">
-            <div style="font-size:12px;color:var(--testo3);margin-top:4px">Facoltativo — max 10MB</div>
+
+          <div class="form-group" style="margin-bottom:20px">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:var(--testo2);font-weight:400;text-transform:none;letter-spacing:0">
+              <input type="checkbox" id="privacy-check" required style="width:16px;height:16px;flex-shrink:0;margin-top:2px;accent-color:var(--mare)">
+              <span>Ho letto e accetto l'<a href="#privacy-policy" onclick="document.getElementById('privacy-modal').style.display='flex'" style="color:var(--mare);text-decoration:underline">Informativa sulla Privacy</a>. Acconsento al trattamento dei miei dati personali da parte di Ponza Digitale (Publimatiqa di Alberto Finelli) ai sensi del Regolamento UE 2016/679 (GDPR) per ricevere una risposta alla mia richiesta.</span>
+            </label>
           </div>
           <button type="submit" class="btn-submit">Invia la richiesta →</button>
         </form>
@@ -1171,7 +1179,7 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Ponza Digitale</div>
-  <div class="footer-tagline">"Anche il passaparola oggi passa dal web."</div>
+  <div class="footer-tagline">"Non una vetrina turistica — uno strumento per chi lavora a Ponza."</div>
   <div class="footer-by">Powered by <a href="https://neuraccent.com" target="_blank" rel="noopener">Neuraccent.com</a></div>
 </footer>
 
@@ -1224,5 +1232,23 @@ Message: ${msg}`
   }, 600);
 });
 </script>
+
+<!-- PRIVACY MODAL -->
+<div id="privacy-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:14px;max-width:640px;width:100%;max-height:80vh;overflow-y:auto;padding:40px 36px;position:relative">
+    <button onclick="document.getElementById('privacy-modal').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#888;line-height:1">×</button>
+    <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--mare-deep);margin-bottom:20px">Informativa sulla Privacy</h2>
+    <p style="font-size:13px;color:#666;line-height:1.7;margin-bottom:14px"><strong>Titolare del trattamento:</strong> Publimatiqa di Alberto Finelli — <a href="https://neuraccent.com" style="color:var(--mare)">neuraccent.com</a></p>
+    <p style="font-size:13px;color:#666;line-height:1.7;margin-bottom:14px"><strong>Dati raccolti:</strong> Nome, nome dell'attività, tipo di attività, zona, recapito (email o WhatsApp), sito web attuale, link social, messaggio libero.</p>
+    <p style="font-size:13px;color:#666;line-height:1.7;margin-bottom:14px"><strong>Finalità:</strong> I dati vengono utilizzati esclusivamente per rispondere alla richiesta di informazioni e, previo consenso, per proporre il servizio Ponza Digitale.</p>
+    <p style="font-size:13px;color:#666;line-height:1.7;margin-bottom:14px"><strong>Base giuridica:</strong> Consenso dell'interessato (art. 6, par. 1, lett. a GDPR).</p>
+    <p style="font-size:13px;color:#666;line-height:1.7;margin-bottom:14px"><strong>Conservazione:</strong> I dati sono conservati per il tempo necessario a gestire la richiesta e comunque non oltre 24 mesi, salvo obblighi di legge.</p>
+    <p style="font-size:13px;color:#666;line-height:1.7;margin-bottom:14px"><strong>Comunicazione a terzi:</strong> I dati non vengono ceduti né venduti a terzi.</p>
+    <p style="font-size:13px;color:#666;line-height:1.7;margin-bottom:20px"><strong>Diritti:</strong> Hai il diritto di accedere, rettificare, cancellare i tuoi dati o revocare il consenso in qualsiasi momento scrivendo a <a href="mailto:info@neuraccent.com" style="color:var(--mare)">info@neuraccent.com</a>.</p>
+    <p style="font-size:12px;color:#aaa;line-height:1.6">Ai sensi del Regolamento UE 2016/679 (GDPR) e del D.Lgs. 196/2003 come modificato dal D.Lgs. 101/2018.</p>
+    <button onclick="document.getElementById('privacy-modal').style.display='none'" style="margin-top:24px;background:var(--mare);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Ho capito</button>
+  </div>
+</div>
+
 </body>
 </html>

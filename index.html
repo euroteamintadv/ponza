@@ -568,7 +568,7 @@ section { padding: 96px 48px; }
 }
 
 /* ─── TESTIMONIANZE ─── */
-.testimonianze { background: var(--cielo); }
+.testimonianze { background: transparent; }
 .test-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -576,7 +576,7 @@ section { padding: 96px 48px; }
   margin-top: 56px;
 }
 .test-card {
-  background: var(--bianco);
+  background: rgba(250,250,248,0.92);
   border-radius: 14px;
   padding: 32px 28px;
   box-shadow: var(--ombra);
@@ -820,7 +820,7 @@ footer {
   <div class="hero-content">
     <div class="hero-tag">🏝️ Solo per le attività di Ponza</div>
     <h1>La tua attività<br>merita di essere<br><em>trovata.</em></h1>
-    <p class="hero-sub">I tuoi clienti cercano online — ristoranti, B&B, negozi, artigiani. Se non ci sei, sceglieranno qualcun altro. Ti portiamo online in 7 giorni.</p>
+    <p class="hero-sub">I tuoi clienti cercano online — ristoranti, B&B, negozi, artigiani. Se non ci sei, sceglieranno qualcun altro. Ti portiamo online in 72 ore.</p>
     <div class="hero-actions">
       <a href="#prezzi" class="btn-primary">Vedi i prezzi</a>
       <a href="#contatti" class="btn-outline-white">Parliamone</a>
@@ -951,11 +951,10 @@ footer {
         <div class="piano-prezzo">19€</div>
         <div class="piano-mese">al mese</div>
         <ul class="piano-features">
-          <li>Sito web responsive</li>
-          <li>Dominio .it o .com</li>
-          <li>Google Maps</li>
+          <li>Sito web ottimizzato per computer e cellulari</li>
+          <li>Ti diamo noi un dominio (*)</li>
           <li>5 foto professionali</li>
-          <li>QR code personalizzato</li>
+          <li>QR code per i tuoi biglietti da visita</li>
         </ul>
         <a href="#contatti" class="btn-piano">Inizia con il Base</a>
       </div>
@@ -968,6 +967,8 @@ footer {
         <div class="piano-mese">al mese</div>
         <ul class="piano-features">
           <li>Tutto il pacchetto Base</li>
+          <li>Google Maps</li>
+          <li>Dominio .it o .com</li>
           <li>Sito in 4 lingue</li>
           <li>10 foto professionali</li>
           <li>Video promozionale</li>
@@ -1006,6 +1007,7 @@ footer {
       </div>
     </div>
 
+    <p class="prezzi-nota reveal" style="margin-bottom:8px">(*) Sottodominio su ponzadigitale.it — es. <em>tuoristorante.ponzadigitale.it</em>. Per dominio proprio vedi il piano Dominio Proprio.</p>
     <p class="prezzi-nota reveal"><strong>Nessun vincolo, nessuna spesa iniziale.</strong> Pagamento mensile, disdici quando vuoi. 📆 Pagamento in due rate disponibile.</p>
   </div>
 </section>
@@ -1014,7 +1016,7 @@ footer {
 <section class="funziona" id="funziona">
   <div class="section-inner">
     <p class="eyebrow reveal">Come funziona</p>
-    <h2 class="section-h2 reveal">Online in <em>7 giorni</em></h2>
+    <h2 class="section-h2 reveal">Online in <em>72 ore!</em></h2>
     <div class="passi">
       <div class="passo reveal">
         <div class="passo-num">1</div>
@@ -1047,7 +1049,7 @@ footer {
 
 <!-- TESTIMONIANZE -->
 <section class="testimonianze" id="testimonianze" style="position:relative;overflow:hidden;">
-  <div style="position:absolute;inset:0;background:url('img/mare-turchese.jpg') center/cover no-repeat;opacity:0.45;z-index:0;"></div>
+  <div style="position:absolute;inset:0;background:url('img/mare-turchese.jpg') center/cover no-repeat;opacity:1;z-index:0;"></div>
   <div class="section-inner" style="position:relative;z-index:2;">
     <p class="eyebrow reveal">Chi lo usa</p>
     <h2 class="section-h2 reveal">Le attività di Ponza<br><em>già online</em></h2>
@@ -1115,11 +1117,15 @@ footer {
       <div class="form-card reveal reveal-delay-1">
         <form id="contact-form">
           <div class="form-group">
-            <label for="nome">Nome e Cognome</label>
+            <label for="nome">Nome e Cognome *</label>
             <input type="text" id="nome" class="form-control" autocomplete="name" placeholder="Il tuo nome" required>
           </div>
           <div class="form-group">
-            <label for="attivita">Tipo di attività</label>
+            <label for="nome-attivita">Nome dell'attività *</label>
+            <input type="text" id="nome-attivita" class="form-control" placeholder="Es. Ristorante da Mario" required>
+          </div>
+          <div class="form-group">
+            <label for="attivita">Tipo di attività *</label>
             <select id="attivita" class="form-control" required>
               <option value="">Seleziona...</option>
               <option>Ristorante / Pizzeria</option>
@@ -1131,12 +1137,29 @@ footer {
             </select>
           </div>
           <div class="form-group">
-            <label for="contatto">Email o WhatsApp</label>
-            <input type="text" id="contatto" class="form-control" placeholder="Come ti ricontattamos" required>
+            <label for="zona">Dove sei sull'isola</label>
+            <input type="text" id="zona" class="form-control" placeholder="Es. Porto, Le Forna, Santa Maria...">
+          </div>
+          <div class="form-group">
+            <label for="contatto">Email o WhatsApp *</label>
+            <input type="text" id="contatto" class="form-control" placeholder="Come ti ricontattiamo" required>
+          </div>
+          <div class="form-group">
+            <label for="sito-attuale">Hai già un sito web?</label>
+            <input type="text" id="sito-attuale" class="form-control" placeholder="Es. www.tuoristorante.it oppure No">
+          </div>
+          <div class="form-group">
+            <label for="social">Social esistenti</label>
+            <input type="text" id="social" class="form-control" placeholder="Instagram, Facebook... (se li hai)">
           </div>
           <div class="form-group">
             <label for="messaggio">Raccontaci qualcosa</label>
-            <textarea id="messaggio" class="form-control" placeholder="Il nome della tua attività, cosa fai, dove sei..." required></textarea>
+            <textarea id="messaggio" class="form-control" placeholder="Cosa fai, cosa vorresti comunicare, orari, specialità..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="allegato">Carica un depliant, logo o foto (PDF, JPG, PNG)</label>
+            <input type="file" id="allegato" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp" style="padding:8px 14px;cursor:pointer">
+            <div style="font-size:12px;color:var(--testo3);margin-top:4px">Facoltativo — max 10MB</div>
           </div>
           <button type="submit" class="btn-submit">Invia la richiesta →</button>
         </form>

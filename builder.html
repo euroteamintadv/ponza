@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea il tuo sito - Ponza Digitale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bianco: #ffffff;
+            --azzurro-chiaro: #e6f2f8;
+            --azzurro: #4fa4d8;
+            --blu-mare: #2a77aa;
+            --blu-scuro: #1a4b75;
+            --sabbia: #f0e6d2;
+            --sabbia-scuro: #d6c9ab;
+            --testo: #333333;
+            --grigio-chiaro: #f5f5f5;
+            --ombra: rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--testo);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Bar */
+        .topbar {
+            background: var(--blu-scuro);
+            color: var(--bianco);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .topbar-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .topbar-logo i { color: var(--azzurro); }
+        .topbar-back {
+            color: var(--bianco);
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .topbar-back:hover { opacity: 1; }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: var(--grigio-chiaro);
+            height: 4px;
+            flex-shrink: 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--azzurro), var(--blu-mare));
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* Main Layout */
+        .main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Chat Panel */
+        .chat-panel {
+            width: 42%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e0e0e0;
+            background: var(--bianco);
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* Messages */
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 10px;
+            animation: msgIn 0.4s ease;
+        }
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .msg-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .msg-avatar.alberto {
+            background: linear-gradient(135deg, var(--azzurro), var(--blu-mare));
+            color: var(--bianco);
+        }
+        .msg-avatar.user {
+            background: var(--sabbia);
+            color: var(--blu-scuro);
+        }
+        .msg-bubble {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+        .msg-bubble.alberto {
+            background: var(--azzurro-chiaro);
+            border-top-left-radius: 4px;
+        }
+        .msg-bubble.user {
+            background: var(--blu-mare);
+            color: var(--bianco);
+            border-top-right-radius: 4px;
+            margin-left: auto;
+        }
+        .msg-bubble strong { color: var(--blu-scuro); }
+        .msg-bubble.user strong { color: var(--bianco); }
+
+        /* Typing Indicator */
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+        }
+        .typing-dots span {
+            width: 8px; height: 8px;
+            background: var(--azzurro);
+            border-radius: 50%;
+            animation: blink 1.4s infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes blink {
+            0%, 80%, 100% { opacity: 0.3; }
+            40% { opacity: 1; }
+        }
+
+        /* Chat Input Area */
+        .chat-input-area {
+            padding: 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            background: var(--bianco);
+            flex-shrink: 0;
+        }
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        .chat-input:focus { border-color: var(--azzurro); }
+        .chat-input:disabled { background: var(--grigio-chiaro); cursor: not-allowed; }
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: var(--azzurro);
+            color: var(--bianco);
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .send-btn:hover { background: var(--blu-mare); }
+        .send-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* Selection Cards (palettes, layouts, images) */
+        .selection-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .sel-card {
+            flex: 1;
+            min-width: 120px;
+            max-width: 160px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            background: var(--bianco);
+        }
+        .sel-card:hover { border-color: var(--azzurro); transform: translateY(-2px); }
+        .sel-card.selected { border-color: var(--blu-mare); background: var(--azzurro-chiaro); }
+        .sel-card-name { font-weight: 600; font-size: 0.85rem; margin-top: 6px; }
+
+        /* Palette Preview */
+        .palette-preview {
+            display: flex;
+            height: 30px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .palette-preview span { flex: 1; }
+
+        /* Layout Preview */
+        .layout-mini {
+            height: 60px;
+            border-radius: 6px;
+            background: var(--grigio-chiaro);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        .layout-mini .lm-hero { flex: 2; background: var(--blu-scuro); }
+        .layout-mini .lm-body { flex: 3; display: flex; gap: 2px; padding: 2px; }
+        .layout-mini .lm-col { flex: 1; background: var(--azzurro-chiaro); border-radius: 2px; }
+        .layout-mini.elegante .lm-hero { flex: 3; }
+        .layout-mini.moderno .lm-hero { flex: 1; }
+        .layout-mini.moderno .lm-body { flex: 4; }
+        .layout-mini.tradizionale .lm-hero { flex: 1.5; background: var(--sabbia-scuro); }
+
+        /* Image Grid */
+        .img-option {
+            width: 80px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .img-option:hover { border-color: var(--azzurro); }
+        .img-option.selected { border-color: var(--blu-mare); box-shadow: 0 0 0 2px var(--azzurro); }
+
+        /* Form within chat */
+        .chat-form { margin-top: 8px; }
+        .chat-form .form-field {
+            margin-bottom: 10px;
+        }
+        .chat-form label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--blu-scuro);
+        }
+        .chat-form input,
+        .chat-form textarea,
+        .chat-form select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .chat-form input:focus,
+        .chat-form textarea:focus,
+        .chat-form select:focus { border-color: var(--azzurro); }
+        .chat-form textarea { min-height: 60px; resize: vertical; }
+        .chat-form-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--azzurro);
+            color: var(--bianco);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: 6px;
+        }
+        .chat-form-btn:hover { background: var(--blu-mare); }
+
+        /* Activity Type Selection */
+        .type-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .type-btn {
+            padding: 8px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            background: var(--bianco);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .type-btn:hover { border-color: var(--azzurro); background: var(--azzurro-chiaro); }
+        .type-btn.selected { border-color: var(--blu-mare); background: var(--azzurro-chiaro); font-weight: 600; }
+
+        /* Modify buttons in feedback step */
+        .modify-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .modify-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--azzurro);
+            border-radius: 20px;
+            background: var(--bianco);
+            color: var(--blu-mare);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .modify-btn:hover { background: var(--azzurro); color: var(--bianco); }
+
+        /* Preview Panel */
+        .preview-panel {
+            flex: 1;
+            background: #e8e8e8;
+            display: flex;
+            flex-direction: column;
+        }
+        .preview-header {
+            padding: 10px 20px;
+            background: var(--grigio-chiaro);
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .preview-header span {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 600;
+        }
+        .preview-url {
+            background: var(--bianco);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .preview-url i { color: var(--azzurro); font-size: 10px; }
+        .preview-frame {
+            flex: 1;
+            border: none;
+            background: var(--bianco);
+        }
+        .preview-placeholder {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            gap: 16px;
+        }
+        .preview-placeholder i { font-size: 48px; }
+        .preview-placeholder p { font-size: 1rem; }
+
+        /* Deploy Animation */
+        .deploy-animation {
+            text-align: center;
+            padding: 16px;
+        }
+        .deploy-spinner {
+            width: 40px; height: 40px;
+            border: 4px solid var(--azzurro-chiaro);
+            border-top: 4px solid var(--azzurro);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .deploy-done {
+            color: #27ae60;
+            font-size: 32px;
+            animation: popIn 0.4s ease;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main { flex-direction: column; }
+            .chat-panel { width: 100%; height: 55%; border-right: none; border-bottom: 1px solid #e0e0e0; }
+            .preview-panel { height: 45%; }
+            .sel-card { min-width: 100px; max-width: 130px; }
+        }
+        @media (max-width: 600px) {
+            .chat-panel { height: 60%; }
+            .preview-panel { height: 40%; }
+            .topbar { padding: 10px 16px; }
+            .topbar-logo { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="topbar-logo"><i class="fas fa-magic"></i> Ponza Digitale — Crea il tuo sito</div>
+    <a href="index.html" class="topbar-back"><i class="fas fa-arrow-left"></i> Torna al sito</a>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="main">
+    <div class="chat-panel">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area" id="chatInputArea">
+            <div class="input-row">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Scrivi qui..." disabled>
+                <button class="send-btn" id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="preview-panel">
+        <div class="preview-header">
+            <span><i class="fas fa-eye"></i> Anteprima</span>
+            <div class="preview-url" id="previewUrl"><i class="fas fa-lock"></i> nomeattivita.ponza.digital</div>
+        </div>
+        <div class="preview-placeholder" id="previewPlaceholder">
+            <i class="fas fa-desktop"></i>
+            <p>L'anteprima del tuo sito apparirà qui</p>
+        </div>
+        <iframe class="preview-frame" id="previewFrame" style="display:none;"></iframe>
+    </div>
+</div>
+
+<script>
+const PALETTES = {
+    mare:         { name: 'Mare',         primary: '#1a4b75', secondary: '#4fa4d8', accent: '#e6f2f8', bg: '#ffffff', text: '#333333' },
+    tramonto:     { name: 'Tramonto',     primary: '#c0392b', secondary: '#e67e22', accent: '#f9e4b7', bg: '#fff8f0', text: '#333333' },
+    limone:       { name: 'Limone',       primary: '#2d6a4f', secondary: '#f4d35e', accent: '#faf3dd', bg: '#ffffff', text: '#333333' },
+    terracotta:   { name: 'Terracotta',   primary: '#8b4513', secondary: '#cd853f', accent: '#faebd7', bg: '#fff5ee', text: '#333333' },
+    bougainville: { name: 'Bougainville', primary: '#8e1c6e', secondary: '#c94c9e', accent: '#f8e8f4', bg: '#ffffff', text: '#333333' },
+    classica:     { name: 'Classica',     primary: '#2c3e50', secondary: '#34495e', accent: '#ecf0f1', bg: '#ffffff', text: '#333333' }
+};
+
+const LAYOUTS = {
+    elegante:     { name: 'Elegante',     font: "'Georgia', serif",           heroSize: '340px', desc: 'Hero grande, font serif' },
+    moderno:      { name: 'Moderno',      font: "'Segoe UI', sans-serif",     heroSize: '200px', desc: 'Minimale, sans-serif' },
+    tradizionale: { name: 'Tradizionale', font: "'Palatino Linotype', serif", heroSize: '260px', desc: 'Classico, colori caldi' }
+};
+
+const STOCK_IMAGES = [
+    { id: 'ponza1', url: 'https://images.pexels.com/photos/2440024/pexels-photo-2440024.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Porto' },
+    { id: 'ponza2', url: 'https://images.pexels.com/photos/1268855/pexels-photo-1268855.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Mare' },
+    { id: 'ponza3', url: 'https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Ristorante' },
+    { id: 'ponza4', url: 'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Hotel' },
+    { id: 'ponza5', url: 'https://images.pexels.com/photos/1579739/pexels-photo-1579739.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Negozio' },
+    { id: 'ponza6', url: 'https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Panorama' }
+];
+
+const ACTIVITY_TYPES = [
+    { id: 'ristorante', icon: 'fa-utensils', label: 'Ristorante / Pizzeria' },
+    { id: 'bar', icon: 'fa-mug-hot', label: 'Bar / Caffetteria' },
+    { id: 'bb', icon: 'fa-bed', label: 'B&B / Affittacamere' },
+    { id: 'hotel', icon: 'fa-hotel', label: 'Hotel' },
+    { id: 'negozio', icon: 'fa-store', label: 'Negozio' },
+    { id: 'artigiano', icon: 'fa-hammer', label: 'Artigiano' },
+    { id: 'noleggio', icon: 'fa-ship', label: 'Noleggio barche' },
+    { id: 'altro', icon: 'fa-ellipsis', label: 'Altro' }
+];
+
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+const progressFill = document.getElementById('progressFill');
+const previewFrame = document.getElementById('previewFrame');
+const previewPlaceholder = document.getElementById('previewPlaceholder');
+const previewUrl = document.getElementById('previewUrl');
+
+let siteData = {
+    nome: '',
+    tipo: '',
+    tipoLabel: '',
+    descrizione: '',
+    palette: null,
+    paletteKey: '',
+    layout: null,
+    layoutKey: '',
+    indirizzo: '',
+    telefono: '',
+    orari: '',
+    servizi: '',
+    heroImage: '',
+    sottodominio: ''
+};
+
+let currentStep = 0;
+const totalSteps = 8;
+
+function updateProgress() {
+    progressFill.style.width = ((currentStep / totalSteps) * 100) + '%';
+}
+
+function scrollChat() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addMessage(text, sender, extraHTML) {
+    const div = document.createElement('div');
+    div.className = 'message';
+    const isAlberto = sender === 'alberto';
+    div.innerHTML = `
+        <div class="msg-avatar ${sender}">${isAlberto ? '<i class="fas fa-robot"></i>' : '<i class="fas fa-user"></i>'}</div>
+        <div class="msg-bubble ${sender}">${text}${extraHTML || ''}</div>
+    `;
+    chatMessages.appendChild(div);
+    scrollChat();
+    return div;
+}
+
+function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'message';
+    div.id = 'typingIndicator';
+    div.innerHTML = `
+        <div class="msg-avatar alberto"><i class="fas fa-robot"></i></div>
+        <div class="msg-bubble alberto"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+    `;
+    chatMessages.appendChild(div);
+    scrollChat();
+}
+
+function hideTyping() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+}
+
+function delay(ms) {
+    return new Promise(r => setTimeout(r, ms));
+}
+
+async function albertoSays(text, extraHTML) {
+    showTyping();
+    await delay(800 + Math.random() * 600);
+    hideTyping();
+    return addMessage(text, 'alberto', extraHTML);
+}
+
+function enableInput(placeholder) {
+    chatInput.disabled = false;
+    sendBtn.disabled = false;
+    chatInput.placeholder = placeholder || 'Scrivi qui...';
+    chatInput.focus();
+}
+
+function disableInput() {
+    chatInput.disabled = true;
+    sendBtn.disabled = true;
+    chatInput.placeholder = '';
+}
+
+function getUserInput() {
+    return new Promise(resolve => {
+        function handler() {
+            const val = chatInput.value.trim();
+            if (!val) return;
+            addMessage(val, 'user');
+            chatInput.value = '';
+            disableInput();
+            sendBtn.removeEventListener('click', handler);
+            chatInput.removeEventListener('keydown', keyHandler);
+            resolve(val);
+        }
+        function keyHandler(e) {
+            if (e.key === 'Enter') handler();
+        }
+        sendBtn.addEventListener('click', handler);
+        chatInput.addEventListener('keydown', keyHandler);
+    });
+}
+
+function waitForSelection(container, selector) {
+    return new Promise(resolve => {
+        container.addEventListener('click', function handler(e) {
+            const card = e.target.closest(selector);
+            if (!card) return;
+            container.querySelectorAll(selector).forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            container.removeEventListener('click', handler);
+            resolve(card.dataset.value);
+        });
+    });
+}
+
+function waitForFormSubmit(formId) {
+    return new Promise(resolve => {
+        const form = document.getElementById(formId);
+        form.addEventListener('submit', function handler(e) {
+            e.preventDefault();
+            const data = new FormData(form);
+            const obj = {};
+            data.forEach((v, k) => obj[k] = v);
+            form.removeEventListener('submit', handler);
+            resolve(obj);
+        });
+    });
+}
+
+function slugify(text) {
+    return text.toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+function generatePreviewHTML() {
+    const p = siteData.palette || PALETTES.mare;
+    const l = siteData.layout || LAYOUTS.moderno;
+    const heroImg = siteData.heroImage || 'https://images.pexels.com/photos/2440024/pexels-photo-2440024.jpeg?auto=compress&cs=tinysrgb&w=1200';
+    const nome = siteData.nome || 'La tua attività';
+    const desc = siteData.descrizione || 'Benvenuti nella nostra attività a Ponza.';
+    const indirizzo = siteData.indirizzo || '';
+    const telefono = siteData.telefono || '';
+    const orari = siteData.orari || '';
+    const servizi = siteData.servizi || '';
+
+    const serviziHTML = servizi ? servizi.split(',').map(s => s.trim()).filter(Boolean).map(s =>
+        `<div style="background:${p.accent};padding:16px 20px;border-radius:10px;text-align:center;flex:1;min-width:200px;">
+            <i class="fas fa-check-circle" style="color:${p.secondary};font-size:24px;margin-bottom:8px;display:block;"></i>
+            <strong>${s}</strong>
+        </div>`
+    ).join('') : '';
+
+    const contactItems = [
+        indirizzo ? `<p><i class="fas fa-map-marker-alt" style="color:${p.secondary};margin-right:8px;"></i>${indirizzo}</p>` : '',
+        telefono ? `<p><i class="fas fa-phone" style="color:${p.secondary};margin-right:8px;"></i>${telefono}</p>` : '',
+        orari ? `<p><i class="fas fa-clock" style="color:${p.secondary};margin-right:8px;"></i>${orari}</p>` : ''
+    ].filter(Boolean).join('');
+
+    return `<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${nome} - Ponza</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:${l.font};color:${p.text};background:${p.bg};line-height:1.6;}
+.hero{background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('${heroImg}');background-size:cover;background-position:center;color:#fff;padding:0;min-height:${l.heroSize};display:flex;align-items:center;justify-content:center;text-align:center;}
+.hero-inner{padding:40px 20px;}
+.hero h1{font-size:2.5rem;margin-bottom:12px;text-shadow:1px 1px 3px rgba(0,0,0,0.3);}
+.hero p{font-size:1.2rem;opacity:0.95;max-width:600px;margin:0 auto;}
+.container{max-width:960px;margin:0 auto;padding:0 20px;}
+section{padding:50px 0;}
+h2{color:${p.primary};font-size:1.8rem;text-align:center;margin-bottom:30px;position:relative;}
+h2::after{content:'';display:block;width:60px;height:3px;background:${p.secondary};margin:12px auto 0;}
+.about{background:${p.accent};}
+.about-text{max-width:700px;margin:0 auto;text-align:center;font-size:1.05rem;}
+.services-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+.contact-info{text-align:center;font-size:1.05rem;}
+.contact-info p{margin-bottom:10px;}
+footer{background:${p.primary};color:#fff;text-align:center;padding:24px;font-size:0.9rem;}
+footer a{color:${p.accent};text-decoration:none;}
+.btn{display:inline-block;padding:12px 28px;background:${p.secondary};color:#fff;border-radius:25px;text-decoration:none;font-weight:600;margin-top:16px;transition:opacity 0.3s;}
+.btn:hover{opacity:0.85;}
+@media(max-width:768px){.hero h1{font-size:1.8rem;}.hero{min-height:220px;}}
+</style>
+</head>
+<body>
+<div class="hero">
+<div class="hero-inner">
+<h1>${nome}</h1>
+<p>${desc}</p>
+${telefono ? `<a href="tel:${telefono.replace(/\s/g,'')}" class="btn"><i class="fas fa-phone"></i> Chiamaci</a>` : ''}
+</div>
+</div>
+${desc ? `<section class="about"><div class="container"><h2>Chi siamo</h2><div class="about-text"><p>${desc}</p></div></div></section>` : ''}
+${serviziHTML ? `<section><div class="container"><h2>I nostri servizi</h2><div class="services-grid">${serviziHTML}</div></div></section>` : ''}
+${contactItems ? `<section class="about"><div class="container"><h2>Contatti</h2><div class="contact-info">${contactItems}</div></div></section>` : ''}
+<footer><p>&copy; ${new Date().getFullYear()} ${nome} — Ponza &bull; Sito creato con <a href="#">Ponza Digitale</a></p></footer>
+</body></html>`;
+}
+
+function updatePreview() {
+    const html = generatePreviewHTML();
+    previewFrame.style.display = 'block';
+    previewPlaceholder.style.display = 'none';
+    previewFrame.srcdoc = html;
+    if (siteData.sottodominio) {
+        previewUrl.innerHTML = `<i class="fas fa-lock" style="color:#27ae60;"></i> ${siteData.sottodominio}.ponza.digital`;
+    } else if (siteData.nome) {
+        previewUrl.innerHTML = `<i class="fas fa-lock"></i> ${slugify(siteData.nome)}.ponza.digital`;
+    }
+}
+
+// ─── STEP FUNCTIONS ───
+
+async function step1_benvenuto() {
+    currentStep = 1;
+    updateProgress();
+
+    await albertoSays(`Ciao! Sono <strong>Alberto</strong>, il tuo assistente digitale. Ti aiuterò a creare il sito web perfetto per la tua attività a Ponza.`);
+    await albertoSays(`Iniziamo! Come si chiama la tua attività?`);
+
+    enableInput('Es: Ristorante Da Mario...');
+    siteData.nome = await getUserInput();
+
+    await albertoSays(`<strong>${siteData.nome}</strong> — bel nome! Che tipo di attività è?`,
+        `<div class="type-grid" id="typeGrid">
+            ${ACTIVITY_TYPES.map(t => `<div class="type-btn" data-value="${t.id}"><i class="fas ${t.icon}"></i> ${t.label}</div>`).join('')}
+        </div>`
+    );
+
+    const typeId = await waitForSelection(document.getElementById('typeGrid'), '.type-btn');
+    const chosen = ACTIVITY_TYPES.find(t => t.id === typeId);
+    siteData.tipo = typeId;
+    siteData.tipoLabel = chosen ? chosen.label : typeId;
+    addMessage(siteData.tipoLabel, 'user');
+
+    updatePreview();
+    await step2_descrizione();
+}
+
+async function step2_descrizione() {
+    currentStep = 2;
+    updateProgress();
+
+    await albertoSays(`Perfetto, un <strong>${siteData.tipoLabel}</strong>! Raccontami un po': cosa rende speciale <strong>${siteData.nome}</strong>? Cosa vorresti far sapere ai tuoi clienti?`);
+
+    enableInput('Racconta la tua attività...');
+    siteData.descrizione = await getUserInput();
+
+    updatePreview();
+    await step3_colori();
+}
+
+async function step3_colori() {
+    currentStep = 3;
+    updateProgress();
+
+    await albertoSays(`Bellissimo! Ora scegliamo i colori del tuo sito. Ho preparato 6 palette pensate per Ponza. Quale ti rappresenta di più?`,
+        `<div class="selection-grid" id="paletteGrid">
+            ${Object.entries(PALETTES).map(([key, p]) => `
+                <div class="sel-card" data-value="${key}">
+                    <div class="palette-preview">
+                        <span style="background:${p.primary}"></span>
+                        <span style="background:${p.secondary}"></span>
+                        <span style="background:${p.accent}"></span>
+                        <span style="background:${p.bg};border:1px solid #ddd;"></span>
+                    </div>
+                    <div class="sel-card-name">${p.name}</div>
+                </div>
+            `).join('')}
+        </div>`
+    );
+
+    const paletteKey = await waitForSelection(document.getElementById('paletteGrid'), '.sel-card');
+    siteData.paletteKey = paletteKey;
+    siteData.palette = PALETTES[paletteKey];
+    addMessage(`Palette: ${siteData.palette.name}`, 'user');
+
+    updatePreview();
+    await step4_layout();
+}
+
+async function step4_layout() {
+    currentStep = 4;
+    updateProgress();
+
+    await albertoSays(`Ottima scelta, i colori <strong>${siteData.palette.name}</strong> staranno benissimo! Ora scegliamo lo stile del layout:`,
+        `<div class="selection-grid" id="layoutGrid">
+            ${Object.entries(LAYOUTS).map(([key, l]) => `
+                <div class="sel-card" data-value="${key}">
+                    <div class="layout-mini ${key}">
+                        <div class="lm-hero"></div>
+                        <div class="lm-body"><div class="lm-col"></div><div class="lm-col"></div><div class="lm-col"></div></div>
+                    </div>
+                    <div class="sel-card-name">${l.name}</div>
+                    <div style="font-size:0.75rem;color:#888;">${l.desc}</div>
+                </div>
+            `).join('')}
+        </div>`
+    );
+
+    const layoutKey = await waitForSelection(document.getElementById('layoutGrid'), '.sel-card');
+    siteData.layoutKey = layoutKey;
+    siteData.layout = LAYOUTS[layoutKey];
+    addMessage(`Layout: ${siteData.layout.name}`, 'user');
+
+    updatePreview();
+    await step5_contenuti();
+}
+
+async function step5_contenuti() {
+    currentStep = 5;
+    updateProgress();
+
+    await albertoSays(`Fantastico! Adesso ho bisogno delle informazioni pratiche sulla tua attività. Compila quello che vuoi mostrare sul sito:`,
+        `<form class="chat-form" id="contentForm">
+            <div class="form-field">
+                <label><i class="fas fa-map-marker-alt"></i> Indirizzo</label>
+                <input type="text" name="indirizzo" placeholder="Es: Via Roma 15, Ponza">
+            </div>
+            <div class="form-field">
+                <label><i class="fas fa-phone"></i> Telefono / WhatsApp</label>
+                <input type="text" name="telefono" placeholder="Es: +39 0771 123456">
+            </div>
+            <div class="form-field">
+                <label><i class="fas fa-clock"></i> Orari di apertura</label>
+                <input type="text" name="orari" placeholder="Es: Lun-Dom 12:00-23:00">
+            </div>
+            <div class="form-field">
+                <label><i class="fas fa-concierge-bell"></i> Servizi (separati da virgola)</label>
+                <textarea name="servizi" placeholder="Es: Cucina tipica, Pesce fresco, Vista mare, Prenotazioni online"></textarea>
+            </div>
+            <button type="submit" class="chat-form-btn"><i class="fas fa-check"></i> Conferma</button>
+        </form>`
+    );
+
+    const formData = await waitForFormSubmit('contentForm');
+    siteData.indirizzo = formData.indirizzo || '';
+    siteData.telefono = formData.telefono || '';
+    siteData.orari = formData.orari || '';
+    siteData.servizi = formData.servizi || '';
+
+    const summary = [siteData.indirizzo, siteData.telefono, siteData.orari].filter(Boolean).join(' | ');
+    addMessage(summary || 'Informazioni inserite', 'user');
+
+    updatePreview();
+    await step6_immagini();
+}
+
+async function step6_immagini() {
+    currentStep = 6;
+    updateProgress();
+
+    await albertoSays(`Quasi finito! Scegli un'immagine per la copertina del tuo sito. Puoi selezionare una delle nostre foto di Ponza:`,
+        `<div class="selection-grid" id="imageGrid">
+            ${STOCK_IMAGES.map(img => `
+                <div class="sel-card" data-value="${img.url}" style="padding:4px;">
+                    <img src="${img.url}" class="img-option" style="width:100%;height:70px;border:none;" alt="${img.label}">
+                    <div class="sel-card-name">${img.label}</div>
+                </div>
+            `).join('')}
+        </div>`
+    );
+
+    const imgUrl = await waitForSelection(document.getElementById('imageGrid'), '.sel-card');
+    siteData.heroImage = imgUrl;
+    addMessage(`Immagine: scelta!`, 'user');
+
+    updatePreview();
+    await step7_deploy();
+}
+
+async function step7_deploy() {
+    currentStep = 7;
+    updateProgress();
+
+    const subdomain = slugify(siteData.nome);
+    siteData.sottodominio = subdomain;
+
+    await albertoSays(`Il tuo sito è pronto! Ho preparato il sottodominio gratuito per te:`);
+    await albertoSays(`<strong style="font-size:1.1rem;">${subdomain}.ponza.digital</strong><br><br>Procedo con la pubblicazione?`,
+        `<div style="margin-top:10px;display:flex;gap:8px;">
+            <button class="chat-form-btn" id="deployYes"><i class="fas fa-rocket"></i> Pubblica!</button>
+            <button class="chat-form-btn" id="deployChange" style="background:transparent;color:var(--blu-mare);border:2px solid var(--blu-mare);"><i class="fas fa-pen"></i> Cambia sottodominio</button>
+        </div>`
+    );
+
+    updatePreview();
+
+    const deployChoice = await new Promise(resolve => {
+        document.getElementById('deployYes').addEventListener('click', () => resolve('deploy'));
+        document.getElementById('deployChange').addEventListener('click', () => resolve('change'));
+    });
+
+    if (deployChoice === 'change') {
+        await albertoSays('Nessun problema! Quale sottodominio preferisci? Scrivi solo il nome (senza .ponza.digital):');
+        enableInput('Es: da-mario');
+        const newSub = await getUserInput();
+        siteData.sottodominio = slugify(newSub);
+        updatePreview();
+    } else {
+        addMessage('Pubblica!', 'user');
+    }
+
+    await albertoSays(`<div class="deploy-animation"><div class="deploy-spinner"></div><p>Pubblicazione in corso su <strong>${siteData.sottodominio}.ponza.digital</strong>...</p></div>`);
+
+    await delay(2500);
+
+    await albertoSays(`<div class="deploy-animation"><div class="deploy-done"><i class="fas fa-check-circle"></i></div><p style="margin-top:8px;"><strong>Sito pubblicato con successo!</strong></p><p style="font-size:0.9rem;color:#666;margin-top:4px;">${siteData.sottodominio}.ponza.digital</p></div>`);
+
+    await step8_feedback();
+}
+
+async function step8_feedback() {
+    currentStep = 8;
+    updateProgress();
+
+    await albertoSays(`Ecco il tuo sito! Sei soddisfatto del risultato, o vorresti cambiare qualcosa?`,
+        `<div class="modify-grid">
+            <button class="modify-btn" data-action="soddisfatto"><i class="fas fa-heart"></i> Sono soddisfatto!</button>
+            <button class="modify-btn" data-action="colori"><i class="fas fa-palette"></i> Cambia colori</button>
+            <button class="modify-btn" data-action="layout"><i class="fas fa-columns"></i> Cambia layout</button>
+            <button class="modify-btn" data-action="testi"><i class="fas fa-pen"></i> Modifica testi</button>
+            <button class="modify-btn" data-action="immagine"><i class="fas fa-image"></i> Cambia immagine</button>
+        </div>`
+    );
+
+    const action = await new Promise(resolve => {
+        document.querySelectorAll('.modify-btn').forEach(btn => {
+            btn.addEventListener('click', () => resolve(btn.dataset.action));
+        });
+    });
+
+    if (action === 'soddisfatto') {
+        addMessage('Sono soddisfatto!', 'user');
+        await albertoSays(`Fantastico! Il tuo sito <strong>${siteData.nome}</strong> è online su <strong>${siteData.sottodominio}.ponza.digital</strong>. Alberto di Ponza Digitale si occuperà di tutto il resto: manutenzione, aggiornamenti e promozione.`);
+        await albertoSays(`Grazie per aver scelto <strong>Ponza Digitale</strong>! Se hai bisogno di qualsiasi cosa, siamo sempre qui. In bocca al lupo con la tua attività! <i class="fas fa-hand-peace" style="color:var(--azzurro);"></i>`);
+    } else if (action === 'colori') {
+        addMessage('Vorrei cambiare i colori', 'user');
+        await step3_colori();
+    } else if (action === 'layout') {
+        addMessage('Vorrei cambiare il layout', 'user');
+        await step4_layout();
+    } else if (action === 'testi') {
+        addMessage('Vorrei modificare i testi', 'user');
+        await albertoSays('Certo! Cosa vorresti cambiare? Puoi riscrivere la descrizione della tua attività:');
+        enableInput('Nuova descrizione...');
+        siteData.descrizione = await getUserInput();
+        updatePreview();
+        await step8_feedback();
+    } else if (action === 'immagine') {
+        addMessage('Vorrei cambiare l\'immagine', 'user');
+        await step6_immagini();
+    }
+}
+
+// ─── START ───
+step1_benvenuto();
+
+</script>
+</body>
+</html>

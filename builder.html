@@ -566,6 +566,9 @@
 </div>
 
 <script>
+// IMPORTANTE: aggiorna con l'URL Railway reale dopo il deploy
+const BACKEND_URL = 'https://ponza-site-builder.up.railway.app';
+
 const PALETTES = {
     mare:         { name: 'Mare',         primary: '#1a4b75', secondary: '#4fa4d8', accent: '#e6f2f8', bg: '#ffffff', text: '#333333' },
     tramonto:     { name: 'Tramonto',     primary: '#c0392b', secondary: '#e67e22', accent: '#f9e4b7', bg: '#fff8f0', text: '#333333' },
@@ -1208,14 +1211,46 @@ async function step8_conferma(ver) {
     if (action === 'conferma') {
         addMessage('Conferma e pubblica!', 'user');
 
-        await albertoSays(`<div class="deploy-animation"><div class="deploy-spinner"></div><p>Pubblicazione in corso su <strong>${siteData.sottodominio}.ponza.online</strong>...</p></div>`, '', ver);
-        await delay(2500);
+        await albertoSays(`<div class="deploy-animation"><div class="deploy-spinner"></div><p>Invio in corso...</p></div>`, '', ver);
+
+        let submitOk = false;
+        try {
+            const res = await fetch(BACKEND_URL + '/api/sites', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nome: siteData.nome,
+                    tipo: siteData.tipo,
+                    tipoLabel: siteData.tipoLabel,
+                    descrizione: siteData.descrizione,
+                    paletteKey: siteData.paletteKey,
+                    layoutKey: siteData.layoutKey,
+                    indirizzo: siteData.indirizzo,
+                    telefono: siteData.telefono,
+                    orari: siteData.orari,
+                    servizi: siteData.servizi,
+                    heroImage: siteData.heroImage.startsWith('data:') ? '' : siteData.heroImage,
+                    sottodominio: siteData.sottodominio
+                })
+            });
+            const data = await res.json();
+            if (res.ok && data.success) submitOk = true;
+            else if (res.status === 409) {
+                await albertoSays(`Il sottodominio <strong>${siteData.sottodominio}</strong> e gia in uso. Torna indietro e scegline un altro.`, '', ver);
+                return;
+            }
+        } catch (err) {
+            console.error('Submit error:', err);
+        }
         if (ver !== flowVersion) return;
 
-        await albertoSays(`<div class="deploy-animation"><div class="deploy-done"><i class="fas fa-check-circle"></i></div><p style="margin-top:8px;"><strong>Richiesta inviata con successo!</strong></p></div>`, '', ver);
-
-        await albertoSays(`Il tuo sito <strong>${siteData.nome}</strong> sara online su <strong>${siteData.sottodominio}.ponza.online</strong> in poche ore. Riceverai una email di conferma all'indirizzo associato al tuo account.`, '', ver);
-        await albertoSays(`Se avrai bisogno di contattarci, non esitare a usare la <strong>chat di ponza.online</strong>! Grazie per aver scelto Ponza Digitale. In bocca al lupo! <i class="fas fa-hand-peace" style="color:var(--azzurro);"></i>`, '', ver);
+        if (submitOk) {
+            await albertoSays(`<div class="deploy-animation"><div class="deploy-done"><i class="fas fa-check-circle"></i></div><p style="margin-top:8px;"><strong>Richiesta inviata con successo!</strong></p></div>`, '', ver);
+            await albertoSays(`Il tuo sito <strong>${siteData.nome}</strong> sara online su <strong>${siteData.sottodominio}.ponza.online</strong> in poche ore. Riceverai una email di conferma.`, '', ver);
+            await albertoSays(`Se avrai bisogno di contattarci, non esitare a usare la <strong>chat di ponza.online</strong>! Grazie per aver scelto Ponza Digitale. In bocca al lupo! <i class="fas fa-hand-peace" style="color:var(--azzurro);"></i>`, '', ver);
+        } else {
+            await albertoSays(`Si e verificato un problema nell'invio. Riprova tra qualche istante o contattaci direttamente sulla <strong>chat di ponza.online</strong>.`, '', ver);
+        }
     } else {
         const stepMap = { colori: 3, layout: 4, testi: 2, immagine: 6, contenuti: 5 };
         const target = stepMap[action];

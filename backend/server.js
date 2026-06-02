@@ -202,12 +202,22 @@ function escapeHTML(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+function sanitizeImageURL(url) {
+    if (!url) return '';
+    if (url.startsWith('data:image/')) return url.replace(/['"\\()<>]/g, '');
+    try {
+        const parsed = new URL(url);
+        if (parsed.protocol !== 'https:') return '';
+        return parsed.href;
+    } catch { return ''; }
+}
+
 function generateSiteHTML(site) {
     const p = PALETTES[site.palette_key] || PALETTES.mare;
     const l = LAYOUT_FONTS[site.layout_key] || LAYOUT_FONTS.moderno;
     const nome = escapeHTML(site.nome);
     const desc = escapeHTML(site.descrizione || '');
-    const heroImg = site.hero_image || 'https://euroteamintadv.github.io/ponza/img/caletta-barche.jpg';
+    const heroImg = sanitizeImageURL(site.hero_image) || 'https://euroteamintadv.github.io/ponza/img/caletta-barche.jpg';
     const indirizzo = escapeHTML(site.indirizzo || '');
     const telefono = escapeHTML(site.telefono || '');
     const orari = escapeHTML(site.orari || '');

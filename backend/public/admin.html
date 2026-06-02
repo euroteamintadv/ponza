@@ -107,6 +107,12 @@ const API_BASE = window.location.origin;
 let token = '';
 let sites = [];
 
+function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+}
+
 // ─── LOGIN ───
 
 document.getElementById('loginBtn').addEventListener('click', doLogin);
@@ -171,18 +177,18 @@ function renderSites() {
         <div class="site-card">
             <div class="site-status ${site.status}"></div>
             <div class="site-info">
-                <div class="site-name">${site.nome}</div>
-                <div class="site-sub">${site.sottodominio}.ponza.online</div>
-                <div class="site-meta">${site.tipo_label || site.tipo} &bull; ${date} &bull; <span style="color:${isPublished ? 'var(--success)' : 'var(--warn)'}">${isPublished ? 'Pubblicato' : 'In attesa'}</span></div>
+                <div class="site-name">${esc(site.nome)}</div>
+                <div class="site-sub">${esc(site.sottodominio)}.ponza.online</div>
+                <div class="site-meta">${esc(site.tipo_label || site.tipo)} &bull; ${date} &bull; <span style="color:${isPublished ? 'var(--success)' : 'var(--warn)'}">${isPublished ? 'Pubblicato' : 'In attesa'}</span></div>
             </div>
             <div class="site-actions">
-                <button class="btn-sm btn-preview" onclick="showDetails(${site.id})"><i class="fas fa-eye"></i> Dettagli</button>
-                <a class="btn-sm btn-preview" href="${API_BASE}/api/admin/sites/${site.id}/preview?token=${encodeURIComponent(token)}" target="_blank"><i class="fas fa-external-link-alt"></i> Preview</a>
+                <button class="btn-sm btn-preview" onclick="showDetails(${parseInt(site.id)})"><i class="fas fa-eye"></i> Dettagli</button>
+                <a class="btn-sm btn-preview" href="${API_BASE}/api/admin/sites/${parseInt(site.id)}/preview?token=${encodeURIComponent(token)}" target="_blank"><i class="fas fa-external-link-alt"></i> Preview</a>
                 ${isPublished
-                    ? `<a class="btn-sm btn-url" href="${site.site_url}" target="_blank"><i class="fas fa-globe"></i> Vai al sito</a>`
-                    : `<button class="btn-sm btn-approve" onclick="approveSite(${site.id})"><i class="fas fa-check"></i> Approva</button>`
+                    ? `<a class="btn-sm btn-url" href="${esc(site.site_url)}" target="_blank"><i class="fas fa-globe"></i> Vai al sito</a>`
+                    : `<button class="btn-sm btn-approve" onclick="approveSite(${parseInt(site.id)})"><i class="fas fa-check"></i> Approva</button>`
                 }
-                <button class="btn-sm btn-delete" onclick="deleteSite(${site.id})"><i class="fas fa-trash"></i></button>
+                <button class="btn-sm btn-delete" onclick="deleteSite(${parseInt(site.id)})"><i class="fas fa-trash"></i></button>
             </div>
         </div>`;
     }).join('');
@@ -197,23 +203,23 @@ function showDetails(id) {
     modal.className = 'modal-overlay';
     modal.innerHTML = `
         <div class="modal">
-            <h3><i class="fas fa-store"></i> ${site.nome}</h3>
+            <h3><i class="fas fa-store"></i> ${esc(site.nome)}</h3>
             <div class="modal-details">
-                <strong>Tipo:</strong> ${site.tipo_label || '-'}<br>
-                <strong>Sottodominio:</strong> ${site.sottodominio}.ponza.online<br>
-                <strong>Palette:</strong> ${site.palette_key || '-'}<br>
-                <strong>Layout:</strong> ${site.layout_key || '-'}<br>
-                <strong>Indirizzo:</strong> ${site.indirizzo || '-'}<br>
-                <strong>Telefono:</strong> ${site.telefono || '-'}<br>
-                <strong>Orari:</strong> ${site.orari || '-'}<br>
-                <strong>Servizi:</strong> ${site.servizi || '-'}<br>
-                <strong>Descrizione:</strong> ${site.descrizione || '-'}<br>
-                <strong>Stato:</strong> ${site.status}
-                ${site.site_url ? `<br><strong>URL:</strong> <a href="${site.site_url}" target="_blank">${site.site_url}</a>` : ''}
+                <strong>Tipo:</strong> ${esc(site.tipo_label || '-')}<br>
+                <strong>Sottodominio:</strong> ${esc(site.sottodominio)}.ponza.online<br>
+                <strong>Palette:</strong> ${esc(site.palette_key || '-')}<br>
+                <strong>Layout:</strong> ${esc(site.layout_key || '-')}<br>
+                <strong>Indirizzo:</strong> ${esc(site.indirizzo || '-')}<br>
+                <strong>Telefono:</strong> ${esc(site.telefono || '-')}<br>
+                <strong>Orari:</strong> ${esc(site.orari || '-')}<br>
+                <strong>Servizi:</strong> ${esc(site.servizi || '-')}<br>
+                <strong>Descrizione:</strong> ${esc(site.descrizione || '-')}<br>
+                <strong>Stato:</strong> ${esc(site.status)}
+                ${site.site_url ? `<br><strong>URL:</strong> <a href="${esc(site.site_url)}" target="_blank">${esc(site.site_url)}</a>` : ''}
             </div>
             <div class="modal-actions">
                 <button class="btn-sm btn-preview" onclick="this.closest('.modal-overlay').remove()">Chiudi</button>
-                ${site.status !== 'published' ? `<button class="btn-sm btn-approve" onclick="this.closest('.modal-overlay').remove();approveSite(${site.id})">Approva e Pubblica</button>` : ''}
+                ${site.status !== 'published' ? `<button class="btn-sm btn-approve" onclick="this.closest('.modal-overlay').remove();approveSite(${parseInt(site.id)})">Approva e Pubblica</button>` : ''}
             </div>
         </div>
     `;

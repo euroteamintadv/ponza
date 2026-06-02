@@ -1110,10 +1110,26 @@ async function step6_immagini(ver) {
         });
     }
 
+    let resolveImage;
+    const imagePromise = new Promise((resolve, reject) => {
+        resolveImage = resolve;
+        const grid = document.getElementById('imageGrid');
+        grid.addEventListener('click', function handler(e) {
+            if (ver !== undefined && ver !== flowVersion) { grid.removeEventListener('click', handler); reject('cancelled'); return; }
+            const card = e.target.closest('.sel-card');
+            if (!card) return;
+            grid.querySelectorAll('.sel-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            grid.removeEventListener('click', handler);
+            resolve(card.dataset.value);
+        });
+    });
+
     function renderUploadPreviews() {
         previewContainer.innerHTML = `<div class="upload-preview">${siteData.uploadedImages.map((img, i) =>
             `<div class="upload-thumb" data-url="${img}" style="cursor:pointer;"><img src="${img}"><button class="remove-img" data-idx="${i}"><i class="fas fa-times"></i></button></div>`
-        ).join('')}</div>`;
+        ).join('')}</div>
+        <button class="chat-form-btn" id="useUploadedBtn" style="margin-top:8px;"><i class="fas fa-check"></i> Usa questa immagine</button>`;
 
         previewContainer.querySelectorAll('.remove-img').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -1133,12 +1149,15 @@ async function step6_immagini(ver) {
                 siteData.heroImage = thumb.dataset.url;
                 updatePreview();
                 document.getElementById('imageGrid').querySelectorAll('.sel-card').forEach(c => c.classList.remove('selected'));
-                addMessage('Immagine personale selezionata!', 'user');
             });
+        });
+
+        document.getElementById('useUploadedBtn').addEventListener('click', () => {
+            resolveImage(siteData.heroImage);
         });
     }
 
-    const imgUrl = await waitForSelection(document.getElementById('imageGrid'), '.sel-card', ver);
+    const imgUrl = await imagePromise;
     siteData.heroImage = imgUrl;
     addMessage(`Immagine: scelta!`, 'user');
 

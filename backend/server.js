@@ -11,7 +11,11 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejec
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 const GITHUB_OWNER = process.env.GITHUB_OWNER || 'euroteamintadv';
 const GITHUB_SITES_REPO = process.env.GITHUB_SITES_REPO || 'ponza-sites';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'cambiami123';
+if (!process.env.ADMIN_PASSWORD) {
+    console.error('ADMIN_PASSWORD env var is required');
+    process.exit(1);
+}
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const CORS_ORIGIN = process.env.CORS_ORIGIN || 'https://euroteamintadv.github.io';
 
 app.use(cors({ origin: [CORS_ORIGIN, 'http://localhost:3000'], credentials: true }));

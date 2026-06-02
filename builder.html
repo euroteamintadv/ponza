@@ -581,13 +581,16 @@ const LAYOUTS = {
     tradizionale: { name: 'Tradizionale', font: "'Palatino Linotype', serif", heroSize: '260px', desc: 'Classico, colori caldi' }
 };
 
+const BASE_IMG = 'https://euroteamintadv.github.io/ponza/img/';
 const STOCK_IMAGES = [
-    { id: 'ponza1', url: 'https://images.pexels.com/photos/2440024/pexels-photo-2440024.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Porto' },
-    { id: 'ponza2', url: 'https://images.pexels.com/photos/1268855/pexels-photo-1268855.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Mare' },
-    { id: 'ponza3', url: 'https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Ristorante' },
-    { id: 'ponza4', url: 'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Hotel' },
-    { id: 'ponza5', url: 'https://images.pexels.com/photos/1579739/pexels-photo-1579739.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Negozio' },
-    { id: 'ponza6', url: 'https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600', label: 'Panorama' }
+    { id: 'caletta',    url: BASE_IMG + 'caletta-barche.jpg',   label: 'Caletta & Barche' },
+    { id: 'chiaia',     url: BASE_IMG + 'chiaia-di-luna.jpg',   label: 'Chiaia di Luna' },
+    { id: 'tramonto',   url: BASE_IMG + 'porto-tramonto.jpg',   label: 'Porto al Tramonto' },
+    { id: 'turchese',   url: BASE_IMG + 'mare-turchese.jpg',    label: 'Mare Turchese' },
+    { id: 'cristallo',  url: BASE_IMG + 'mare-cristallino.jpg', label: 'Mare Cristallino' },
+    { id: 'notte',      url: BASE_IMG + 'lungomare-notte.jpg',  label: 'Lungomare Notte' },
+    { id: 'faraglioni', url: BASE_IMG + 'faraglioni-hero.jpg',  label: 'Faraglioni' },
+    { id: 'ponza2524',  url: BASE_IMG + 'ponza-2524.jpg',       label: 'Ponza Vista' }
 ];
 
 const ACTIVITY_TYPES = [
@@ -615,12 +618,14 @@ const previewPlaceholder = document.getElementById('previewPlaceholder');
 const previewUrl = document.getElementById('previewUrl');
 const stepNavEl = document.getElementById('stepNav');
 
+const DEFAULT_HERO = 'https://euroteamintadv.github.io/ponza/img/caletta-barche.jpg';
+
 let siteData = {
     nome: '', tipo: '', tipoLabel: '', descrizione: '',
     palette: null, paletteKey: '',
     layout: null, layoutKey: '',
     indirizzo: '', telefono: '', orari: '', servizi: '',
-    heroImage: '', uploadedImages: [],
+    heroImage: DEFAULT_HERO, uploadedImages: [],
     sottodominio: ''
 };
 
@@ -800,7 +805,7 @@ function slugify(text) {
 function generatePreviewHTML() {
     const p = siteData.palette || PALETTES.mare;
     const l = siteData.layout || LAYOUTS.moderno;
-    const heroImg = siteData.heroImage || 'https://images.pexels.com/photos/2440024/pexels-photo-2440024.jpeg?auto=compress&cs=tinysrgb&w=1200';
+    const heroImg = siteData.heroImage || DEFAULT_HERO;
     const nome = siteData.nome || 'La tua attivita';
     const desc = siteData.descrizione || 'Benvenuti nella nostra attivita a Ponza.';
     const indirizzo = siteData.indirizzo || '';
